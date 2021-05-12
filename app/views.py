@@ -17,7 +17,7 @@ from docx2pdf import convert
 import os
 import string
 from subprocess import  Popen
-LIBRE_OFFICE = r"C:\Program Files\LibreOffice\program\soffice.exe"
+LIBRE_OFFICE = "../lib/libreoffice/program/soffice"
 
 def convert_to_pdf(input_docx, out_folder):
     p = Popen([LIBRE_OFFICE, '--headless', '--convert-to', 'pdf', '--outdir',
