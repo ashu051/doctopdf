@@ -16,6 +16,15 @@ import os
 from docx2pdf import convert
 import os
 import string
+from subprocess import  Popen
+LIBRE_OFFICE = r"C:\Program Files\LibreOffice\program\soffice.exe"
+
+def convert_to_pdf(input_docx, out_folder):
+    p = Popen([LIBRE_OFFICE, '--headless', '--convert-to', 'pdf', '--outdir',
+               out_folder, input_docx])
+    print([LIBRE_OFFICE, '--convert-to', 'pdf', input_docx])
+    p.communicate()
+
 
 @csrf_protect
 def index(request):
@@ -45,12 +54,13 @@ def convertpdf(request,id):
     if id is not None:
         pdf = Document.objects.get(id=id)
         r_file = str(pdf.document)
+        
         print(r_file)
         p ="AD__SHIV_NARESH__VIMUKTI__SAKIL__KATORA_4tl02tB.docx"
         q="AD__SHIV_NARESH__VIMUKTI__SAKIL__KATORA_4tl02tB.docx"
         if p==q:
             print("**************")
-        # r_file.replace(" ","_")
+        r_file.replace(" ","_")
         print(r_file[:-5])
         print(r_file[:9])
         print(r_file)
@@ -58,9 +68,11 @@ def convertpdf(request,id):
         print(a+" "+b)
         finalstring = settings.MEDIA_ROOT+'\\'+a+'\\'+b
         finalstring2 = settings.MEDIA_ROOT+'\\'+a+'\\'+b[:-5]
-        print(finalstring2)
-        convert(finalstring, 
-        finalstring2+".pdf")
+        final = settings.MEDIA_ROOT+'\\'+a
+        convert_to_pdf(finalstring,final)        
+        # print(finalstring2)
+        # convert(finalstring, 
+        # finalstring2+".pdf")
         return render(request,'app/pdf.html',
             {
                 'all':pdf
